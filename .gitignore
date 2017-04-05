@@ -2,7 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/WindowsFormsApplication1/bin/
+/WindowsFormsApplication1/bin/*
 !WindowsFormsApplication1/bin/Release/app.publish/
 
 /WindowsFormsApplication1/obj/
