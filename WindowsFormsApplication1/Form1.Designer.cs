@@ -92,7 +92,7 @@
             // 
             // startSolidworks
             // 
-            this.startSolidworks.Location = new System.Drawing.Point(34, 54);
+            this.startSolidworks.Location = new System.Drawing.Point(34, 56);
             this.startSolidworks.Name = "startSolidworks";
             this.startSolidworks.Size = new System.Drawing.Size(100, 25);
             this.startSolidworks.TabIndex = 3;
