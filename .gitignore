@@ -4,3 +4,5 @@
 
 *.pfx
 /WindowsFormsApplication1/obj/Debug/TempPE
+/WindowsFormsApplication1/bin/Debug/
+/WindowsFormsApplication1/obj/Debug/

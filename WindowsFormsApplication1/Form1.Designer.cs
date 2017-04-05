@@ -61,10 +61,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(296, 118);
+            this.button2.Location = new System.Drawing.Point(289, 118);
             this.button2.Margin = new System.Windows.Forms.Padding(10, 3, 10, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(72, 23);
+            this.button2.Size = new System.Drawing.Size(61, 23);
             this.button2.TabIndex = 2;
             this.button2.Text = "Browse";
             this.button2.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 104);
+            this.label4.Location = new System.Drawing.Point(31, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(187, 13);
             this.label4.TabIndex = 8;
@@ -81,18 +81,18 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(27, 120);
+            this.textBox4.Location = new System.Drawing.Point(34, 120);
             this.textBox4.MaximumSize = new System.Drawing.Size(400, 20);
             this.textBox4.MinimumSize = new System.Drawing.Size(180, 20);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(256, 20);
+            this.textBox4.Size = new System.Drawing.Size(242, 20);
             this.textBox4.TabIndex = 1;
             this.textBox4.Text = "Z:\\Windows.Documents\\My Documents\\ENGR 248\\STUDENTS (TA)\\STUDENT Lab 4 Submission" +
     "s";
             // 
             // startSolidworks
             // 
-            this.startSolidworks.Location = new System.Drawing.Point(27, 51);
+            this.startSolidworks.Location = new System.Drawing.Point(34, 54);
             this.startSolidworks.Name = "startSolidworks";
             this.startSolidworks.Size = new System.Drawing.Size(100, 25);
             this.startSolidworks.TabIndex = 3;
@@ -104,7 +104,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 104);
+            this.label6.Location = new System.Drawing.Point(10, 104);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(16, 13);
             this.label6.TabIndex = 12;
@@ -113,7 +113,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(25, 29);
+            this.label7.Location = new System.Drawing.Point(32, 29);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(149, 13);
             this.label7.TabIndex = 13;
@@ -122,7 +122,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 29);
+            this.label9.Location = new System.Drawing.Point(10, 29);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(16, 13);
             this.label9.TabIndex = 15;
@@ -131,7 +131,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 196);
+            this.label1.Location = new System.Drawing.Point(32, 196);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(113, 13);
             this.label1.TabIndex = 20;
@@ -140,7 +140,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 196);
+            this.label2.Location = new System.Drawing.Point(10, 196);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(16, 13);
             this.label2.TabIndex = 19;
@@ -177,7 +177,7 @@
             // 
             // ScanDirectoriesButton
             // 
-            this.ScanDirectoriesButton.Location = new System.Drawing.Point(27, 147);
+            this.ScanDirectoriesButton.Location = new System.Drawing.Point(34, 155);
             this.ScanDirectoriesButton.Name = "ScanDirectoriesButton";
             this.ScanDirectoriesButton.Size = new System.Drawing.Size(100, 25);
             this.ScanDirectoriesButton.TabIndex = 33;
@@ -199,7 +199,7 @@
             // 
             this.LoadSelectionButton.Location = new System.Drawing.Point(12, 378);
             this.LoadSelectionButton.Name = "LoadSelectionButton";
-            this.LoadSelectionButton.Size = new System.Drawing.Size(100, 25);
+            this.LoadSelectionButton.Size = new System.Drawing.Size(86, 25);
             this.LoadSelectionButton.TabIndex = 7;
             this.LoadSelectionButton.Text = "Load selection";
             this.LoadSelectionButton.UseVisualStyleBackColor = true;

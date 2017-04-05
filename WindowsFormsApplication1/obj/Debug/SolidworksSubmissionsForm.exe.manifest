@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SolidworksSubmissionsForm.exe" size="50688">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SolidworksSubmissionsForm.exe" size="51200">
       <assemblyIdentity name="SolidworksSubmissionsForm" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ck6Lg+OY/Rx/SZuQB1399fE3EnsgGyCZfH8An9/UCfM=</dsig:DigestValue>
+        <dsig:DigestValue>er9JdV0XfvBl+8zdBttq5a/6hHwt1sCJAXXUMqKdBUM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
