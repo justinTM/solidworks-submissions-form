@@ -5,7 +5,8 @@ This Form shows student folders, their parts, and each part's sketch as nodes wi
 
 ## Download .exe
 <a href="https://github.com/Justin-Mai/SolidworksSubmissionsForm/raw/master/WindowsFormsApplication1/bin/Release/app.publish/WindowsFormsApplication1.exe">Download the current (WIP) .exe here</a>
-( found in WindowsFormsApplication1\bin\Release\app.publish )
+
+(found in WindowsFormsApplication1\bin\Release\app.publish)
 
 ## TO-DO List
 Future goals for this Form include:
