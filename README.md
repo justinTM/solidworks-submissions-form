@@ -14,6 +14,7 @@ This Form shows student folders, their parts, and each part's sketch as nodes wi
 ## TO-DO List
 Future goals for this Form include:
  - Opening sketches in Normal-To view, from the TreeView
+ - Adding functionality to "Previous"/"Next" increment buttons
  - Scraping data from features (timestamps, owner, # of undefined sketches, etc.)
  - Saving/exporting scraped data for upload into spreadsheet
  - Dimension-checking (ie. user can specify correct dimensions, then select contours within Solidworks to verify proper dimensions)
