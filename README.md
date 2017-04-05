@@ -8,8 +8,8 @@ This Form shows student folders, their parts, and each part's sketch as nodes wi
 
 (found in WindowsFormsApplication1\bin\Release\app.publish)
 
-## Screenshot
-![Form screenshot, work in progress](http://i.imgur.com/puKZrg3.png "Form screenshot (WIP)")
+## Screenshot  (probably outdated) 
+![Form screenshot, work in progress](https://i.imgur.com/9NsfR0k.png "Form screenshot (WIP)")
 
 ## TO-DO List
 Future goals for this Form include:
