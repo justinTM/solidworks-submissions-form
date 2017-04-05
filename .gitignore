@@ -3,7 +3,7 @@
 ################################################################################
 
 /WindowsFormsApplication1/bin/
-!/WindowsFormsApplication1/bin/Release/app.publish/
+!WindowsFormsApplication1/bin/Release/app.publish/
 
 /WindowsFormsApplication1/obj/
 *.pfx
