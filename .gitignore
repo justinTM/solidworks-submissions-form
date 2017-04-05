@@ -1,8 +1,12 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+/WindowsFormsApplication1/bin/
+!/WindowsFormsApplication1/bin/Release/app.publish/
+
+/WindowsFormsApplication1/obj/
 *.pfx
-/WindowsFormsApplication1/obj/Debug/TempPE
-/WindowsFormsApplication1/bin/Debug/
-/WindowsFormsApplication1/obj/Debug/
+
+.vs/
+
