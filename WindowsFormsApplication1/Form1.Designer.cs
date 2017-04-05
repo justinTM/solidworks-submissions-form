@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,13 +44,11 @@
             this.ScanDirectoriesButton = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.LoadSelectionButton = new System.Windows.Forms.Button();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // folderBrowserDialog1
@@ -205,10 +202,6 @@
             this.LoadSelectionButton.UseVisualStyleBackColor = true;
             this.LoadSelectionButton.Click += new System.EventHandler(this.LoadSelectionButton_Click);
             // 
-            // bindingSource1
-            // 
-            this.bindingSource1.DataSource = typeof(StudentInfo);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(63, 314);
@@ -290,7 +283,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,7 +304,6 @@
         private System.Windows.Forms.Button nextSubmission;
         private System.Windows.Forms.Button ScanDirectoriesButton;
         private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Button LoadSelectionButton;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
