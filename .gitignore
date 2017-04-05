@@ -3,6 +3,9 @@
 ################################################################################
 
 /WindowsFormsApplication1/bin/*
+!WindowsFormsApplication1/bin/Release/
+
+/WindowsFormsApplication1/bin/Release/*
 !WindowsFormsApplication1/bin/Release/app.publish/
 
 /WindowsFormsApplication1/obj/
