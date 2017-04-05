@@ -8,6 +8,9 @@ This Form shows student folders, their parts, and each part's sketch as nodes wi
 
 (found in WindowsFormsApplication1\bin\Release\app.publish)
 
+## Screenshot
+![Form screenshot, work in progress](http://i.imgur.com/puKZrg3.png "Form screenshot (WIP)")
+
 ## TO-DO List
 Future goals for this Form include:
  - Opening sketches in Normal-To view, from the TreeView
