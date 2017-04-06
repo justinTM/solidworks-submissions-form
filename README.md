@@ -1,5 +1,5 @@
 # ENGR248 Solidworks Submission Form
-A Windows Form Application to help/automate the grading process for Solidworks parts, submitted by Oregon State University student in ENGR 248. This project uses Windows Form Applications with the Solidworks API - both in C#.
+A Windows Form Application to help TAs (like myself) speed up the grading process for Solidworks parts, submitted by Oregon State University students in ENGR 248. This project uses Windows Form Applications with the Solidworks API - written in C#.
 
 This Form shows student folders, their parts, and each part's sketch as nodes within a TreeView. This could greatly speed up workflow when grading, since it removes the need to navigate the filesystem and Solidworks dialogs. To begin, select a root directory containing student submission folders (eg. downloaded from Canvas and unzipped).
 
