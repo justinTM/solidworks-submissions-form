@@ -33,6 +33,10 @@ namespace WindowsFormsApplication1
             InitializeComponent();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+        }
+
 
 
         // Shows the FolderBrowser and fills in the "directory" text box with browser-selected folder path
@@ -45,9 +49,10 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Runs the "Normal-To" command for a feature's sketch (this is the Ctrl+8 user shortcut in Solidworks)
+        // Runs the "Normal-To view" command for a feature's sketch (this is the Ctrl+8 user shortcut in Solidworks)
         public int RunNormalToSketchCommand()
         {
+
             Console.WriteLine("  Running 'Normal-To' command...");
             ModelDoc2 thisModel = default(ModelDoc2);
             try
@@ -69,8 +74,8 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Gets details of a given sketch and prints to the Console
-        public int GetSketchDetails(Feature featureAsSketch)
+        // Gets details of a given sketch (as a Feature) and prints to the Console, returns int contrained status
+        public int GetConstrainedStatus(Feature featureAsSketch)
         {
             Sketch currentSketch = default(Sketch);
             currentSketch = featureAsSketch.GetSpecificFeature2();
@@ -98,7 +103,7 @@ namespace WindowsFormsApplication1
 
 
 
-        // Loops through all sketches in a given ModelDoc2 model
+        // (UNUSED, for future reference) Loops through all sketches in a given ModelDoc2 model
         public void iterate_each_sketch_in_model(ModelDoc2 thisModel)
         {
             Console.WriteLine("Iterating through all sketches in this model...");
@@ -123,7 +128,7 @@ namespace WindowsFormsApplication1
 
                     // Gather properties of sketch
                     Console.WriteLine("Iterating through parentFeature" + numParentFeatures + " ('" + currentFeature.Name + "') in this model...");
-                    GetSketchDetails(currentFeature);
+                    GetConstrainedStatus(currentFeature);
 
                     // Clear all previous selections
                     thisModel.ClearSelection2(true);
@@ -162,88 +167,9 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Loops through all features in Solidworks part (given a *.SLDPRT file path)
-        public int iterate_each_feature_in_Solidworks_file(string filePath)
-        {
-            int numFeaturesInPart = 0;
-            ModelDoc2 currentModelDoc = default(ModelDoc2);
-            Feature currentFeature = default(Feature);
-
-            // Attempt to open doc
-            currentModelDoc = GetSolidworksModelFromFile(filePath);
-
-            // Exit if it failed
-            if (currentModelDoc == null)
-            {
-                Console.WriteLine("** Error: Model is NULL! Something's wrong...");
-                return -1;
-            }
-
-            string fileName = new FileInfo(filePath).Name;
-
-            // Get first feature in this part document
-            currentFeature = (Feature)currentModelDoc.FirstFeature();
-
-            // Iterate over features in this part document in FeatureManager design tree
-            while ((currentFeature != null))
-            {
-                // Write the name of the feature and its creator to the Immediate window
-                Console.WriteLine("  Feature " + currentFeature.Name + " created by " + currentFeature.CreatedBy);
-
-                currentFeature = (Feature)currentFeature.GetNextFeature();  // Get next feature in this part document
-                numFeaturesInPart++;
-            }
-
-            Console.WriteLine("Closing Solidworks file '" + fileName + "'...");
-            swApp.CloseDoc(filePath);
-            Console.WriteLine("Closed successfully.");
-
-            Console.WriteLine("Number of features iterated through in this part: " + numFeaturesInPart);
-            return numFeaturesInPart;
-        }
 
 
-
-        // Loops through all *.SLDPRT files found in a given folder path
-        public void open_Solidworks_files(string folderPath)
-        {
-            if (Directory.Exists(folderPath))
-            {
-
-                foreach (string filePath in Directory.EnumerateFiles(folderPath, "*.SLDPRT"))
-                {
-                    string fileName = new FileInfo(filePath).Name;
-                    if (IsTempFile(filePath))
-                    {
-                        Console.WriteLine("Ignoring temp. file: '" + fileName + "'");
-                        continue;
-                    }
-
-                    Console.WriteLine("Filename is: '" + fileName + "'");
-                    ModelDoc2 currentModel = GetSolidworksModelFromFile(filePath);
-
-                    if (currentModel == null)
-                    {
-                        Console.WriteLine("** ERROR: Failed to open model");
-                    }
-
-                    // Open "Edit sketch" for each sketch, make Normal-To view, then exit sketch
-                    iterate_each_sketch_in_model(currentModel);
-
-
-                    swApp.CloseDoc(currentModel.GetTitle());
-                }
-            }
-            else
-            {
-                ShowNonFatalError("** Error: Invalid folder path:\n'" + folderPath + "'");
-            }
-        }
-
-
-
-
-        // Opens and returns a model, given a file path
+        // Opens and returns a model, given a file path. Returns currently-active model if already open
         public ModelDoc2 GetSolidworksModelFromFile(string filePath)
         {
             // Declare variables
@@ -307,39 +233,14 @@ namespace WindowsFormsApplication1
 
 
 
-
-        // Returns number of *.SLDPRT files found in a given folder path (-1 if invalid path, 0 if no files found)
-        public int get_num_Solidworks_files_in_folder(string folderPath)
-        {
-            int numSolidworksFilesInFolder = 0;
-            if (Directory.Exists(folderPath))
-            {
-                foreach (string file in Directory.EnumerateFiles(folderPath, "*.SLDPRT"))
-                {
-                    numSolidworksFilesInFolder++;
-                }
-                string folderName = new DirectoryInfo(folderPath).Name;
-                Console.WriteLine("Found " + numSolidworksFilesInFolder + " Solidworks files in folder: '" + folderName + "'");
-
-            }
-            else
-            {
-                return -1;
-            }
-
-
-            return numSolidworksFilesInFolder;
-        }
-
-
-
-
+        // Shows a dialog box without closing Solidworks or the Form
         public void ShowNonFatalError(string message)
         {
             MessageBox.Show("Error: '" + message + "'\n\nPlease try again.", "Try again", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button3, MessageBoxOptions.DefaultDesktopOnly);
             Console.WriteLine(message);
         }
 
+        // Shows a dialog box and closes both Solidworks and the Form
         public void ShowFatalErrorMessage(string message)
         {
             Console.WriteLine(message);
@@ -350,23 +251,9 @@ namespace WindowsFormsApplication1
             Application.Exit();
         }
 
-        public void ShowCloseSolidworksMessage(string message)
-        {
-            Console.WriteLine(message);
-            if (MessageBox.Show("ERROR: '" + message + "'\n\nExiting...", "Exiting script", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button3, MessageBoxOptions.DefaultDesktopOnly)
-                == DialogResult.OK) { }
-
-            CloseSolidworks(false);  // Close without dialog prompt
-        }
 
 
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
-
-
-        // Checks if file path has " ~ <fileName>" or " . <fileName>"
+        // Checks if file name has " ~ <fileName>" or " . <fileName>", given file path
         private bool IsTempFile(string filePath)
         {
             string fileName = new FileInfo(filePath).Name;
@@ -404,71 +291,6 @@ namespace WindowsFormsApplication1
             }
             
 
-        }
-
-
-
-
-        public string check_this_Solidworks_directory(string folderPath)
-        {
-            string folderName = folderPath.Substring(folderPath.LastIndexOf("\\") + 1);
-
-            // Gets number of .SLDPRT files in given folder, -1 if invalid folder path
-            int num_Solidworks_parts_in_folder = -1;
-            num_Solidworks_parts_in_folder = get_num_Solidworks_files_in_folder(folderPath);
-
-            // Check for correct number of parts in this folder
-            if (num_Solidworks_parts_in_folder == -1)   // If unable to open directory, notify user and exit Solidworks (keep script running)
-            {
-                return ("Invalid folder path '" + folderName + "'.");
-            }
-            else if (num_Solidworks_parts_in_folder == 0)  // If zero files found, notify user and exit Solidworks (keep script running)
-            {
-                return ("No Solidworks part files found in selected folder:\n" + folderName);
-            }
-
-            return "Valid";
-        }
-
-
-
-
-        public void run_main_script()
-        {
-            Console.WriteLine("Opened Solidworks.exe successfully.");
-            swApp.Visible = true;
-
-            // Gets the folder path from the user's entry (either dialog or manual text)
-            string folderPath = textBox4.Text;
-
-            // Check to make sure we have a valid path and correct number of files
-            string resultOfFolderCheck = check_this_Solidworks_directory(folderPath);
-
-            if (resultOfFolderCheck != "Valid")
-            {
-                ShowCloseSolidworksMessage(resultOfFolderCheck);
-            }
-            else  // If Solidworks files found in folder, continue running script
-            {
-                // Gets the lower-most folder's name (eg. "This_Solidworks_Folder")
-                string folderName = new DirectoryInfo(folderPath).Name;
-                Console.WriteLine("Folder name is: '" + folderName + "'");
-
-                // Iterates through each part
-                Console.WriteLine("Opening all Solidworks files in folder '" + folderName + "'");
-                //open_Solidworks_files(folderPath);
-                Console.WriteLine("Done opening files.");
-                
-                CloseSolidworks(true);  // Close with dialog prompt
-            }
-        }
-
-
-
-
-        private void button_ExitScript_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
 
@@ -524,23 +346,7 @@ namespace WindowsFormsApplication1
 
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ModelDoc2 myModel = default(ModelDoc2);
-            myModel = (ModelDoc2)swApp.ActiveDoc;
-
-                if (myModel == null)
-                {
-                    ShowNonFatalError("Failed to open model. (ActiveDoc is null)");
-                    return;
-                }
-
-                    traverseLevel = 0;
-                    ExpandAllSolidworksFeaturesInTree(myModel);
-        }
-
-
-
+        // TODO: add "Next <submission|part|sketck>" button functionality
         private void nextSubmission_Click_1(object sender, EventArgs e)
         {
             
@@ -550,7 +356,7 @@ namespace WindowsFormsApplication1
 
 
 
-        // Returns a List object containing each subfolder's path found within root directory
+        // Returns a List object containing each student folder's path found within root directory
         private List<string> EnumerateFolders(string rootFolderPath)
         {
             try
@@ -579,7 +385,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Returns a List object containing each file's path found within directory
+        // Returns a List object containing each part file's path found within directory
         private List<string> EnumerateSolidworksFiles(string rootFolderPath)
         {
             try
@@ -612,7 +418,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Returns a List object containing each Part as a ModelDoc2, given a folder path
+        // Returns a List object containing each part as a ModelDoc2, given a folder path
         private List<ModelDoc2> EnumerateSolidworksParts(string folderPath)
         {
             // Check if Solidworks.exe is open
@@ -891,7 +697,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Open selection from Enter key on tree view item
+        // Open selection from Enter key on treeView1 node
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             // "Enter" key is pressed
@@ -912,7 +718,7 @@ namespace WindowsFormsApplication1
 
 
 
-        // Adds child Sketch nodes to a given Part node
+        // Adds child Sketch nodes to treeView1 node, given a TreeNode
         private void AddSketchesToPartNode(TreeNode partNode)
         {
             PartNodeInfo pNodeInfo = (PartNodeInfo) partNode.Tag;  // Retrieve the custom NodeInfo class from the node's Tag object
@@ -939,7 +745,7 @@ namespace WindowsFormsApplication1
             }
         }
 
-        // Opens a Solidworks part, given the TreeView indeces (student folder index and their files index)
+        // Opens a Solidworks part, given a part TreeNode 
         private bool OpenStudentPartFromNode(TreeNode partNode)
         {
             // Gets the current part's name (if open), to break if new part is already open
@@ -980,7 +786,7 @@ namespace WindowsFormsApplication1
         }
 
 
-        // Closes the currently-open part, if any
+        // Closes the currently-open part, if it exists
         private void CloseCurrentPart()
         {
             if (swApp != null)
@@ -993,7 +799,7 @@ namespace WindowsFormsApplication1
             }
         }
 
-        // Closes Solidworks with/without a messagebox confirm
+        // Closes Solidworks with/without a messagebox prompt to confirm
         public void CloseSolidworks(bool withPrompt)
         {
             if (withPrompt)
