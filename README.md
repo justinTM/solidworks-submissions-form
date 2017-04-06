@@ -7,10 +7,10 @@ This Form App shows a TreeView containing, as nodes:
      - each sketch within the part. 
 
 ## Purpose
-My hope (and goal) is for this project to speed up grading worflow for TAs by:  
-- iterating through student submissions with simple controls
+My hope (and goal) is for this project to speed up grading workflow and making grading less monotonous for TAs by:  
 - removing the need to navigate though the filesystem
-- reducing the number of clicks required by the grader.
+- reducing the number of clicks required by the grader
+- iterating through student submissions with simple controls
 
 It could also provide students with higher-quality feeback, since less time can be spent on navigation or other overhead, and instead more time giving detailed feedback.
 
