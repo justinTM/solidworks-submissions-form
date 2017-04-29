@@ -84,8 +84,8 @@
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(242, 20);
             this.textBox4.TabIndex = 1;
-            this.textBox4.Text = "Z:\\Windows.Documents\\My Documents\\ENGR 248\\STUDENTS (TA)\\STUDENT Lab 4 Submission" +
-    "s";
+            this.textBox4.Text = "\\\\stak.engr.oregonstate.edu\\students\\m\\maij\\Windows.Documents\\My Documents\\ENGR 2" +
+    "48\\STUDENTS (TA)\\STUDENT Lab 4 Submissions";
             // 
             // startSolidworks
             // 
