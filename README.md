@@ -7,7 +7,7 @@ This Form App shows a TreeView containing, as nodes:
      - each sketch within the part. 
 
 ## Purpose
-My hope (and goal) is for this project to speed up grading workflow and making grading less monotonous for TAs by:  
+The goal is for this project to speed up grading workflow and making grading less monotonous for TAs by:  
 - removing the need to navigate though the filesystem
 - reducing the number of clicks required by the grader
 - iterating through student submissions with simple controls
@@ -27,7 +27,7 @@ Coming soon...
 
 ## TO-DO List
 Feature goals for this Form include:
- - Opening sketches in Normal-To view, from the TreeView
+ - ~~Opening sketches in Normal-To view, from the TreeView~~ **Done!**
  - Adding functionality to "Previous"/"Next" increment buttons
  - Scraping data from features (timestamps, owner, # of undefined sketches, etc.)
  - Saving/exporting scraped data for upload into spreadsheet
