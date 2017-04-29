@@ -19,14 +19,10 @@ namespace WindowsFormsApplication1
     {
         private SldWorks.SldWorks swApp;
         private int traverseLevel;
-        private bool expandThis;
         List<StudentInfo> listOfStudents;
-        private int directoryIndex = 0;
-        private int currentStudentIndex = 0;
-        private int currentPartIndex = 0;
-        private int currentSketchIndex = 0;
         private int numSubmissions = 0;
         private string rootDirectory = "";
+        ModelDoc2 currentModel = default(ModelDoc2);
 
         public Form1()
         {
@@ -325,7 +321,6 @@ namespace WindowsFormsApplication1
             int nodeObjectType = rootNode.ObjectType;
             object nodeObject = rootNode.Object;
 
-            Console.WriteLine("Node text = '" + rootNode.Text + "'");
             // Ignore Annotations and History features
             if (rootNode.Text != "Annotations" && rootNode.Text != "History")
             {
@@ -334,14 +329,6 @@ namespace WindowsFormsApplication1
                 traverseLevel = traverseLevel + 1;
                 //childNode = rootNode.GetFirstChild();
             }
-
-
-            //while (childNode != null)
-            //{
-            //    Console.Print(indent + "Node is expanded: " + childNode.Expanded);
-            //    traverse_node(childNode);
-            //    childNode = childNode.GetNext();
-            //}
 
             traverseLevel = traverseLevel - 1;
             Console.WriteLine("Expanded all features in part successfully.");
@@ -479,13 +466,11 @@ namespace WindowsFormsApplication1
             List<Feature> listOfSketches = new List<Feature>();
             Feature currentFeature = default(Feature);
             int numParentFeatures = 0;
-            int numSketches = 0;
 
             // Loop through all features in 'thisModel'
             currentFeature = thisModel.IFirstFeature();
             while (currentFeature != null)
             {
-                Console.WriteLine("Feature {0} ('" + currentFeature.Name + "')", numParentFeatures);
                 numParentFeatures++;
                 if (currentFeature.GetTypeName2() == "ProfileFeature")  // If child is type Sketch
                 {
@@ -509,7 +494,7 @@ namespace WindowsFormsApplication1
                 currentFeature = currentFeature.GetNextFeature();
             }
 
-            Console.WriteLine("Got " + numSketches + " sketches from this model");
+            Console.WriteLine("Got " + listOfSketches.Count + " sketches from this model");
             return listOfSketches;
         }
 
@@ -700,15 +685,19 @@ namespace WindowsFormsApplication1
             else if (nodeInfo.NodeLevel == "Part")
             {
                 swApp.Visible = false;
-                if (OpenStudentPartFromNode(selectedNode))
+                if (OpenPartFromNode(selectedNode))
                 {
-                    AddSketchesToPartNode(selectedNode);
+                    // Only add sketches if there aren't Sketch node children already
+                    if (selectedNode.GetNodeCount(true) == 0)
+                    {
+                        AddSketchesToPartNode(selectedNode);
+                    }
                 }
                 swApp.Visible = true;
             }
             else if (nodeInfo.NodeLevel == "Sketch")
             {
-
+                OpenSketchFromNode(selectedNode);
             }
             else
             {
@@ -758,6 +747,7 @@ namespace WindowsFormsApplication1
             var sketchNode = new TreeNode();
             for (int i=0; i < listOfSketches.Count; i++)
             {
+                
                 SketchNodeInfo sNodeInfo = new SketchNodeInfo(pNodeInfo, listOfSketches[i], i);  // A custom class (ie. NodeInfo) to track the heirarchy of the Nodes
                 sketchNode = new TreeNode(sNodeInfo.Name);  // Make the Node title the file's name
                 sketchNode.Tag = sNodeInfo;
@@ -766,8 +756,10 @@ namespace WindowsFormsApplication1
         }
 
         // Opens a Solidworks part, given a part TreeNode 
-        private bool OpenStudentPartFromNode(TreeNode partNode)
+        private bool OpenPartFromNode(TreeNode partNode)
         {
+
+
             // Gets the current part's name (if open), to break if new part is already open
             ModelDoc2 currentPart = default(ModelDoc2);
             currentPart = swApp.IActiveDoc2;
@@ -777,7 +769,7 @@ namespace WindowsFormsApplication1
             else
                 currentPartName = currentPart.GetTitle();
 
-            // Retrieves index from Node, to convert selectedNode to Student
+            // Get custom PartNodeInfo object from this node
             PartNodeInfo pNodeInfo = (PartNodeInfo)partNode.Tag;
             string fileName = pNodeInfo.FileName;
 
@@ -785,7 +777,13 @@ namespace WindowsFormsApplication1
             if (fileName == currentPartName)
             {
                 Console.WriteLine("Part is already opened. Skipping PartOpen.");
-                return false;
+                currentModel = currentPart;
+
+                // Exit out of any opened sketches
+                if (currentModel.SketchManager.ActiveSketch != null)
+                    currentModel.InsertSketch2(true);
+
+                return true;
             }
 
             // Close current part and open new part
@@ -800,8 +798,76 @@ namespace WindowsFormsApplication1
                 return false;
             }
 
+            currentModel = newPart;
+
             Console.WriteLine("Opened part successfully.");
             ExpandAllSolidworksFeaturesInTree(newPart);
+            return true;
+        }
+
+
+        // Opens a Solidworks part, given a part TreeNode 
+        private bool OpenSketchFromNode(TreeNode sketchNode)
+        {
+            // Get custom SketchNodeInfo object from this node
+            SketchNodeInfo sNodeInfo = (SketchNodeInfo)sketchNode.Tag;
+            if (sNodeInfo == null)
+            {
+                ShowNonFatalError("Sketch node is missing SketchNodeInfo tag");
+                return false;
+            }
+
+            // Get the sketch feature from SketchNodeInfo
+            string sketchName = sNodeInfo.SketchName;
+            if (sketchName == null)
+            {
+                ShowNonFatalError("SketchNodeInfo is missing a Sketch Feature variable");
+                return false;
+            }
+
+            // Opens the part from sketch's parent node (if not already open)
+            if (!OpenPartFromNode(sketchNode.Parent))
+            {
+                ShowNonFatalError("Failed to open part from sketch node's parent node");
+                return false;
+            }
+
+            // Clear all previous selections in part
+            currentModel.ClearSelection2(true);
+
+            // Open "Edit Sketch" and make sketch Normal-To (ctrl+8 shortcut)
+            OpenSketchNormalToByName(sketchName);
+
+            return false;
+        }
+
+
+        // Open "Edit Sketch" and make sketch Normal-To (ctrl+8 shortcut) given the Feature
+        private bool OpenSketchNormalToByName(string sketchName)
+        {
+            // Exit out of any opened sketches
+            if (currentModel.SketchManager.ActiveSketch != null)
+                currentModel.InsertSketch2(true);
+
+            ModelDocExtension swModelDocExt = default(ModelDocExtension);
+            swModelDocExt = currentModel.Extension;
+            bool selected = swModelDocExt.SelectByID2(sketchName, "SKETCH", 0, 0, 0, false, 0, null, 0);
+
+            if (!selected)
+            {
+                ShowNonFatalError("Failed to select sketch '"+sketchName+"'");
+                return false;
+            }
+
+            // Open sketch for editing ("Edit Sketch" in Solidworks UI)
+            currentModel.EditSketchOrSingleSketchFeature();
+
+            // Run the 'Normal-To' view command
+            if (RunNormalToSketchCommand() != 0)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -939,9 +1005,10 @@ public class SketchNodeInfo : PartNodeInfo
         else
             return "(!)";
     }
+
     public string ConstrainedString { get; set; }
     public int SketchIndex { get; set; }
-    public Feature SketchFeature { get; set; }
+    public string SketchName { get; set; }
 
     public SketchNodeInfo(PartNodeInfo partNodeInfo, Feature sketchFeature, int sketchIndex)
         : base(partNodeInfo.Student, partNodeInfo.PartIndex)
@@ -949,14 +1016,12 @@ public class SketchNodeInfo : PartNodeInfo
         NodeLevel = "Sketch";
         SketchIndex = sketchIndex;
         ConstrainedString = "??";
-        Name = "??";
-        SketchFeature = sketchFeature;
 
         if (sketchFeature != null)
         {
             ConstrainedString = ConvertConstrainedToString(sketchFeature.GetSpecificFeature2().GetConstrainedStatus());
-            Name = sketchFeature.Name;
+            SketchName = sketchFeature.Name;
         }
-        Name = ConstrainedString + " " + Name;
+        Name = ConstrainedString + " " + SketchName;
     }
 }
