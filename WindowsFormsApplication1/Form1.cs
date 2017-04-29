@@ -58,6 +58,10 @@ namespace WindowsFormsApplication1
             try
             {
                 thisModel = (ModelDoc2)swApp.ActiveDoc;  // Get the part 
+                if (thisModel == null)
+                {
+                    return -1;
+                }
                 int currentCommandID = 169;  // // enum int for the NormalTo command (defined in 'swCommands_e')
                 string currentCommandTitle = "Normal-To";  // custom name for the command to be run, arbitrary
 
@@ -702,6 +706,10 @@ namespace WindowsFormsApplication1
                 }
                 swApp.Visible = true;
             }
+            else if (nodeInfo.NodeLevel == "Sketch")
+            {
+
+            }
             else
             {
                 Console.WriteLine("Invalid node selection (node level = " + nodeInfo.NodeLevel + ")");
@@ -750,7 +758,7 @@ namespace WindowsFormsApplication1
             var sketchNode = new TreeNode();
             for (int i=0; i < listOfSketches.Count; i++)
             {
-                SketchInfoNode sNodeInfo = new SketchInfoNode(pNodeInfo, listOfSketches[i], i);  // A custom class (ie. NodeInfo) to track the heirarchy of the Nodes
+                SketchNodeInfo sNodeInfo = new SketchNodeInfo(pNodeInfo, listOfSketches[i], i);  // A custom class (ie. NodeInfo) to track the heirarchy of the Nodes
                 sketchNode = new TreeNode(sNodeInfo.Name);  // Make the Node title the file's name
                 sketchNode.Tag = sNodeInfo;
                 partNode.Nodes.Add(sketchNode);  // Add this child file node under the student folder node
@@ -918,9 +926,9 @@ public class PartNodeInfo : StudentNodeInfo
 }
 
 
-public class SketchInfoNode : PartNodeInfo
+public class SketchNodeInfo : PartNodeInfo
 {
-    public string GetConstrainedString(int constrainedStatus)
+    public string ConvertConstrainedToString(int constrainedStatus)
     {
         if (constrainedStatus == 3)  // Fully defined
             return "";
@@ -933,18 +941,20 @@ public class SketchInfoNode : PartNodeInfo
     }
     public string ConstrainedString { get; set; }
     public int SketchIndex { get; set; }
+    public Feature SketchFeature { get; set; }
 
-    public SketchInfoNode(PartNodeInfo partNodeInfo, Feature sketchFeature, int sketchIndex)
+    public SketchNodeInfo(PartNodeInfo partNodeInfo, Feature sketchFeature, int sketchIndex)
         : base(partNodeInfo.Student, partNodeInfo.PartIndex)
     {
         NodeLevel = "Sketch";
         SketchIndex = sketchIndex;
         ConstrainedString = "??";
         Name = "??";
+        SketchFeature = sketchFeature;
 
         if (sketchFeature != null)
         {
-            ConstrainedString = GetConstrainedString(sketchFeature.GetSpecificFeature2().GetConstrainedStatus());
+            ConstrainedString = ConvertConstrainedToString(sketchFeature.GetSpecificFeature2().GetConstrainedStatus());
             Name = sketchFeature.Name;
         }
         Name = ConstrainedString + " " + Name;
