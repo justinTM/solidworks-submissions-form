@@ -373,13 +373,17 @@ namespace WindowsFormsApplication1
             catch (UnauthorizedAccessException UAEx)
             {
                 ShowNonFatalError(UAEx.Message);  // Show message box
-                Console.WriteLine(UAEx.Message);
                 return null;
             }
             catch (PathTooLongException PathEx)
             {
                 ShowNonFatalError(PathEx.Message);  // Show message box
                 
+                return null;
+            }
+            catch (DirectoryNotFoundException MissingEx)
+            {
+                ShowNonFatalError(MissingEx.Message);
                 return null;
             }
         }
@@ -624,6 +628,8 @@ namespace WindowsFormsApplication1
             }
 
             treeView1.Nodes.Add(rootNode);
+
+            PrintAllNodeTags(rootNode);
         }
 
 
@@ -631,6 +637,10 @@ namespace WindowsFormsApplication1
         private void PrintAllNodeTags(TreeNode parentNode)
         {
             if (parentNode == null)
+            {
+                return;
+            }
+            else if (parentNode.Nodes.Count <= 0)
             {
                 return;
             }
@@ -669,6 +679,8 @@ namespace WindowsFormsApplication1
             TreeNode selectedNode = treeView1.SelectedNode;
             if (selectedNode == null)  // Tree View node is selected
                 return;
+
+            PrintAllNodeTags(selectedNode);
 
             NodeInfo nodeInfo = (NodeInfo)selectedNode.Tag;  // Retrieve this node's Tag object as a custom class
             Console.WriteLine("node level = " + nodeInfo.NodeLevel + ")");
@@ -739,8 +751,8 @@ namespace WindowsFormsApplication1
             for (int i=0; i < listOfSketches.Count; i++)
             {
                 SketchInfoNode sNodeInfo = new SketchInfoNode(pNodeInfo, listOfSketches[i], i);  // A custom class (ie. NodeInfo) to track the heirarchy of the Nodes
-                sketchNode.Tag = sNodeInfo;
                 sketchNode = new TreeNode(sNodeInfo.Name);  // Make the Node title the file's name
+                sketchNode.Tag = sNodeInfo;
                 partNode.Nodes.Add(sketchNode);  // Add this child file node under the student folder node
             }
         }
