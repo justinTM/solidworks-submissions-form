@@ -27,7 +27,7 @@ Coming soon...
 
 ## TO-DO List
 Feature goals for this Form include:
- - ~~Opening sketches in Normal-To view, from the TreeView~~ **Done!**
+ - **Done!** ~~Opening sketches in Normal-To view, from the TreeView~~
  - Adding functionality to "Previous"/"Next" increment buttons
  - Scraping data from features (timestamps, owner, # of undefined sketches, etc.)
  - Saving/exporting scraped data for upload into spreadsheet
