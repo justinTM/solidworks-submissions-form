@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{D32200B3-A6E2-42F3-8A62-380DAAA2D8E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolidworksSubmissionsForm", "WindowsFormsApplication1\SolidworksSubmissionsForm.csproj", "{D32200B3-A6E2-42F3-8A62-380DAAA2D8E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
