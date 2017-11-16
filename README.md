@@ -15,7 +15,7 @@ The goal is for this project to speed up grading workflow and making grading les
 It could also provide students with higher-quality feeback, since less time can be spent on navigation or other overhead, and instead more time giving detailed feedback.
 
 ## How to run / compile
-<a href="https://github.com/Justin-Mai/SolidworksSubmissionsForm/raw/master/WindowsFormsApplication1/bin/Release/app.publish/WindowsFormsApplication1.exe">An executable (.exe) is included</a> automatically in this repo (found in WindowsFormsApplication1\bin\Release\app.publish).
+[The program (.exe) is available](WindowsFormsApplication1.exe) automatically in this repo (found in WindowsFormsApplication1\bin\Release\app.publish).
 
 You can also build it yourself simply by opening the Visual Studio Solution (.sln) file, setting the Build Configuration to "Release" or "Debug" and hitting the green "Start" button within Visual Studio.
 
